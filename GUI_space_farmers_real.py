@@ -5,10 +5,8 @@ import json
 from peremain import calc_function
 from plot_sh_vs_days_gui import graph_SH_vs_days
 
-# Загружаем данные из JSON-файла
-with open('all_flight_tasks.json') as json_file:
-    dataF = json.load(json_file)
-
+with open('real_task.txt', 'r') as f:
+    points = eval(f.read())
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -41,17 +39,8 @@ class MainWindow(QMainWindow):
         central_widget.setLayout(layout)
         self.setCentralWidget(central_widget)
 
-    def start_mission(self):
+    def start_mission(self, points):
         days_graph = []
-        # Получаем номер миссии из поля ввода
-        mission_number = int(self.mission_input.text())
-        if mission_number < 1 or mission_number > len(dataF):
-            self.output_text.setText("Некорректный номер миссии")
-            return
-
-        # Получаем точки для выбранной миссии
-        points = dataF[str(mission_number)]['points']
-        print(points)
         results, point_results = calc_function(points)
 
         # Формируем строку с результатами миссии
@@ -73,10 +62,12 @@ class MainWindow(QMainWindow):
         graph_SH_vs_days(days_graph)
         return days_graph
 
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
+    window.start_mission(points)
     sys.exit(app.exec_())
 
 

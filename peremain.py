@@ -69,7 +69,6 @@ def calc_function(points):
                 else:
                     suitable_power = False  # Если новая популяция > требуемой + 8, выход из цикла
 
-        print(day)  # Печать текущего дня
 
         # Полет к следующей точке
         suitable_power = True
